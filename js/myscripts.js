@@ -60,6 +60,29 @@ paint.setDefaults = function () {
     paint.zCounter = 0;
 }
 
+paint.newPaint = function(){
+    paint.canvas.innerHTML = "";
+}
+
+// paint.savePaint = function(){
+//     var paintName = prompt("Give a name to your paint:");
+//     var savedPaint ={};
+//     savedPaint.name = paintName;
+//     savedPaint.paintedElements = [];
+//     var allElements = document.querySelectorAll("#canvas div");
+//     for (var i=0; i<allElements.length; i++){
+//         savedPaint.paintedElements[i].style={}
+//         savedPaint.paintedElements[i].style.top = allElements[i].style.top;
+//         savedPaint.paintedElements[i].style.left = allElements[i].style.left;
+//         savedPaint.paintedElements[i].style.backgroundColor = allElements[i].style.backgroundColor;
+//         savedPaint.paintedElements[i].style.height = allElements[i].style.height;
+//         savedPaint.paintedElements[i].style.width = allElements[i].style.width;
+//         savedPaint.paintedElements[i].style.borderRadius = allElements[i].style.borderRadius;
+//     }
+//     localStorage.setItem('paint', JSON.stringify(savedPaint));
+//     alert ("Paint Saved");
+// }
+
 paint.changeColor = function (e) {
     document.getElementById(paint.selectedColor).classList.remove("active");
     paint.selectedColor = e.target.id;
@@ -70,6 +93,8 @@ paint.changeColor = function (e) {
 paint.changeBrush = function (e) {
     paint.selectedBrush = e.target.id;
 }
+
+paint.change
 
 
 paint.changeWidth = function (e) {
@@ -98,8 +123,5 @@ paint.painting = function (e) {
     }
     paint.canvas.appendChild(newPatch);
 }
-
-
-
 
 paint.start();
