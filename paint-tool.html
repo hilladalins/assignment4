@@ -25,22 +25,23 @@
     <div class="container-fluid">
         <div class="row menu-bar">
             <div class="col-xs-3 logo"> PAINT </div>
+            <button id="new">new</button>
+            <button id="save">save</button>
+            <button id="load">load</button>
         </div>
     </div>
     <div class="main-screen">
-        <div class="side-menu">
-            <div class="color active" id="black"></div>
-            <div class="color" id="red"></div>
-            <div class="color" id="green"></div>
-            <div class="color" id="blue"></div>
-            <div class="color" id="yellow"></div>
-            <div class="color" id="pink"></div>
-            <div class="color" id="purple"></div>
-            <div class="color" id="orange"></div>
-            <button type="button" id="circle"> <div class="circle"></div></button><br>
-            <button type="button" id="square"> <div class="square"></div></button><br>   
+        <div id="side-menu">
+            <button type="button" id="circle" class="brush">
+                <div class="circle"></div>
+            </button>
+            <button type="button" id="square" class="brush">
+                <div class="square"></div>
+            </button>
+            <button type="button" id="eraser"> <img src="./img/eraser.png" alt="eraser" /> </button>
+            <button type="button" id="can"> <img src="./img/paint-bucket.png" alt="paint-bucket" /> </button>
             <input id="range" type="range" value="20" step="5" min="5" max="40"><br>
-            <button type="button" id="eraser"></button>
+            <div id="thickness-value"> 20px </div>
         </div>
         <div id="canvas"></div>
     </div>

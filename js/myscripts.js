@@ -1,85 +1,105 @@
+var paint = {}
+paint.colors = ["black", "red", "green", "blue", "yellow", "pink", "purple", "orange"];
+paint.brushes = ["circle", "square"];
+paint.canvas = document.getElementById("canvas");
+// paint.can = document.getElementById("can");
+paint.sizeRange = document.getElementById("range");
+paint.eraser = document.getElementById("eraser");
 
-var brush = {
-    color: "black",
-    shape: "circle"
+paint.start = function () {
+    paint.bindMenuButtons();
+    paint.generateSideColorsButtons();
+    paint.bindSideButtons();
+    paint.bindGeneral();
+    paint.setDefaults();
 }
 
-var brushColor = "black";
-var canvas = document.getElementById("canvas");
-var mouseFlag = false;
-var circleButton = document.getElementById("circle");
-var squareButton = document.getElementById("square");
-var eraserButton = document.getElementById("eraser");
-var range = document.getElementById("range");
-var zCounter = 0;
-
-
-
-
-var colorButtons = document.getElementsByClassName("color");
-for (var i = 0; i < colorButtons.length; i++) {
-    colorButtons[i].addEventListener("click", changeColor);
+paint.bindMenuButtons = function () {
+    var newBtn = document.getElementById("new");
+    newBtn.addEventListener("click", paint.newPaint);
+    var saveBtn = document.getElementById("save");
+    saveBtn.addEventListener("click", paint.savePaint);
+    var loadBtn = document.getElementById("load");
+    loadBtn.addEventListener("click", paint.loadPaint);
 }
 
-window.addEventListener("mousedown", changeMouseFlag);
-window.addEventListener("mouseup", changeMouseFlag);
-canvas.addEventListener("mousemove", painting);
-circleButton.addEventListener("click", changeShape);
-squareButton.addEventListener("click", changeShape);
-eraserButton.addEventListener("click", () => { brush.color = "white" });
-
-
-function changeShape(e) {
-    if (e.target.id === "circle") {
-        brush.shape = "circle"
-    }
-    else {
-        brush.shape = "square"
+paint.generateSideColorsButtons = function () {
+    var colorButtonsWrap = document.getElementById("side-menu");
+    for (var i = 0; i < paint.colors.length; i++) {
+        var color = document.createElement("div");
+        color.classList.add("color");
+        color.id = paint.colors[i]
+        color.style.backgroundColor = paint.colors[i];
+        colorButtonsWrap.appendChild(color);
     }
 }
 
-function changeMouseFlag(e) {
-    if (e.type === "mousedown") {
-        mouseFlag = true;
+paint.bindSideButtons = function () {
+    for (var i = 0; i < paint.colors.length; i++) {
+        document.getElementsByClassName("color")[i].addEventListener("click", paint.changeColor);
     }
-    else if (e.type === "mouseup") {
-        mouseFlag = false;
+    for (var i = 0; i < paint.brushes.length; i++) {
+        document.getElementsByClassName("brush")[i].addEventListener("click", paint.changeBrush);
     }
+    paint.eraser.addEventListener("click", () => { paint.selectedColor = "white" });
+    // paint.can.addEventListener("click", paint.changeBackgroundColor);
+    paint.sizeRange.addEventListener("change", paint.changeWidth);
+}
+
+paint.bindGeneral = function () {
+    window.addEventListener("mousedown", paint.changeMouseFlag);
+    window.addEventListener("mouseup", paint.changeMouseFlag);
+    paint.canvas.addEventListener("mousemove", paint.painting);
+}
+
+paint.setDefaults = function () {
+    paint.selectedColor = paint.colors[0];
+    document.getElementsByClassName("color")[0].classList.add("active");
+    paint.selectedBrush = paint.brushes[0];
+    paint.selectedWidth = "20";
+    paint.zCounter = 0;
+}
+
+paint.changeColor = function (e) {
+    document.getElementById(paint.selectedColor).classList.remove("active");
+    paint.selectedColor = e.target.id;
+    document.getElementById(paint.selectedColor).classList.add("active");
 }
 
 
-function changeColor(e) {
-    for (var i = 0; i < colorButtons.length; i++) {
-        if (colorButtons[i].classList.contains("active")) {
-            colorButtons[i].classList.remove("active");
-            break;
-        }
-    }
-    e.target.classList.add("active");
-    brush.color = window.getComputedStyle(e.target).getPropertyValue("background-color");
+paint.changeBrush = function (e) {
+    paint.selectedBrush = e.target.id;
 }
 
-function painting(e) {
-    if (e.target.id != "canvas") {
+
+paint.changeWidth = function (e) {
+    document.getElementById("thickness-value").innerHTML = e.target.value + "px";
+    paint.selectedWidth = e.target.value;
+}
+
+
+paint.painting = function (e) {
+    var topLimit = paint.canvas.getBoundingClientRect().y + 500 - paint.selectedWidth;
+    var leftLimit = paint.canvas.getBoundingClientRect().x + 500 - paint.selectedWidth;
+    if (e.buttons != 1 || e.clientY > topLimit || e.clientX > leftLimit) {
         return;
     }
-    else if (mouseFlag === true) {
-        var newPatch = document.createElement("div");
-        newPatch.style.position = "absolute"
-        newPatch.style.top = (e.clientY - canvas.getBoundingClientRect().y) + "px";
-        newPatch.style.left = (e.clientX - canvas.getBoundingClientRect().x) + "px";
-        newPatch.style.backgroundColor = brush.color;
-        newPatch.style.height = range.value + "px";
-        newPatch.style.width = range.value + "px";
-        newPatch.style.zIndex = zCounter;
-        zCounter++;
-        if (brush.shape === "circle") {
-            newPatch.style.borderRadius = "100%";
-        }
-        canvas.appendChild(newPatch);
-        newPatch.addEventListener("mousemove", painting);
+    var newPatch = document.createElement("div");
+    newPatch.style.position = "absolute";
+    newPatch.style.top = (e.clientY - paint.canvas.getBoundingClientRect().y) + "px";
+    newPatch.style.left = (e.clientX - paint.canvas.getBoundingClientRect().x) + "px";
+    newPatch.style.backgroundColor = paint.selectedColor;
+    newPatch.style.height = paint.selectedWidth + "px";
+    newPatch.style.width = paint.selectedWidth + "px";
+    newPatch.style.zIndex = paint.zCounter;
+    paint.zCounter++;
+    if (paint.selectedBrush === "circle") {
+        newPatch.style.borderRadius = "100%";
     }
-    else {
-        return;
-    }
+    paint.canvas.appendChild(newPatch);
 }
+
+
+
+
+paint.start();
