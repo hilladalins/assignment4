@@ -16,32 +16,32 @@
     <link rel="stylesheet" type="text/css" href="./css/mycss.css">
 
     <!-- Google FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro" rel="stylesheet">
 </head>
 
 <body>
 
 
-    <div class="container-fluid">
-        <div class="row menu-bar">
-            <div class="col-xs-3 logo"> PAINT </div>
-            <button id="new">new</button>
-            <button id="save">save</button>
-            <button id="load">load</button>
-        </div>
+    <div class="menu-bar">
+        <span class="logo"> PAINT </span>
+        <button id="new">new</button>
+        <button id="save">save</button>
+        <button id="load">load</button>
     </div>
     <div class="main-screen">
         <div id="side-menu">
-            <button type="button" id="circle" class="brush">
-                <div class="circle"></div>
+            <button type="button" id="circle" class="brush" title="circle">
+                <div class="circle shape"></div>
             </button>
-            <button type="button" id="square" class="brush">
-                <div class="square"></div>
+            <button type="button" id="square" class="brush" title="square">
+                <div class="square shape"></div>
             </button>
-            <button type="button" id="eraser"> <img src="./img/eraser.png" alt="eraser" /> </button>
-            <button type="button" id="can"> <img src="./img/paint-bucket.png" alt="paint-bucket" /> </button>
-            <input id="range" type="range" value="20" step="5" min="5" max="40"><br>
+            <button type="button" id="eraser" title="eraser"> <img src="./img/eraser.png" alt="eraser" /> </button>
+            <button type="button" id="can" title="fill"> <img src="./img/paint-bucket.png" alt="paint-bucket" /> </button>
+            <div class="range-wrap">
+            <input id="range" type="range" value="20" step="1" min="5" max="40"><br>
             <div id="thickness-value"> 20px </div>
+            </div>
         </div>
         <div id="canvas"></div>
     </div>

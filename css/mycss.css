@@ -1,33 +1,69 @@
 body{
     margin:0;
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color: rgb(154, 161, 170);
 }
 
 .menu-bar{
-    border: 1px solid black;
+    height: 80px;
+    display:flex;
+    align-items: center;
+    background-color: rgb(205, 213, 224);
+    box-shadow: 0px 12px 51px -11px rgba(0,0,0,0.46);
 }
 
-.logo{
+.menu-bar .logo{
     font-family: 'Indie Flower', cursive;
+    font-weight: bold;
     background-image: url("../img/logo.jpg");
     background-size: cover;
     border-radius: 40%;
     font-size: 26px;
     font-weight: bold;
-    padding: 10px 30px;
+    padding: 10px 50px;
+    margin-left: 30px;
+    margin-right: 50px;
+}
+
+.menu-bar button{
+    background-color: rgb(229, 225, 233);
+    border: 3px solid rgb(118, 88, 136);
+    border-radius: 10%;
+    height: 35px;
+    width: 60px;
+    margin:auto 25px ;
+    outline: none;
+}
+
+.menu-bar button:hover{
+    background-color: rgb(118, 88, 136);
+    color: white;
 }
 
 .main-screen{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 #side-menu{
     display: grid;
-    border: 1px solid black;
-    background-color: rgb(235, 226, 213);
-    width:150px;
-    grid-template-columns: 60px 60px;
-    grid-template-rows: 80px 80px 80px 80px 80px 80px;
+    background-color: rgb(205, 213, 224);
+    grid-template-columns: repeat(4,60px);
+    grid-template-rows: repeat(6,80px);
+    margin-right: 10px;
+    padding-top: 60px;
+    box-shadow: 12px 12px 51px -11px rgba(0,0,0,0.46);
+    justify-items: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#side-menu button{
+    height: 40px;
+    width: 50px;
+    border-radius: 5%;
+    outline-color:rgb(118, 88, 136);
+    outline-style: ridge; 
 }
 
 .color{
@@ -35,40 +71,52 @@ body{
     width: 30px;
     border-radius: 100%;
     padding: 20px;
-    justify-self: center;
-    z-index: 111;
 }
 
 .active{
     border:2px solid gray;
 }
 
+button, .color{
+    cursor: pointer;
+}
 
 #canvas{
     position: relative;
     height: 500px;
     width: 500px;
-    border: 1px solid black;
-    margin: 0;
+    outline: 6px solid rgb(205, 213, 224);
+    background-color: white;
+    margin: 30px;
+    align-self: center;
+}
+
+
+.shape{
+    background-color: black;
+    height: 20px;
+    width: 20px;
+    margin: 0 auto;
 }
 
 .circle{
-    background-color: black;
-    height: 20px;
-    width: 20px;
     border-radius: 100%;
 }
 
-.square{
-    background-color: black;
-    height: 20px;
-    width: 20px;
-    position: 
+.range-wrap{
+    grid-column: 1 / 5;
+    grid-row: 2 / 3;
+    justify-self: stretch;
+    display: flex;
+    justify-content: space-around;
 }
+
 
 #thickness-value{
     text-align: center;
     border: 1px solid black;
+    border-radius: 5%;
+    padding: 3px 5px;
 }
 
 

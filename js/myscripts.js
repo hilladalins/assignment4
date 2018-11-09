@@ -1,5 +1,5 @@
 var paint = {}
-paint.colors = ["black", "red", "green", "blue", "yellow", "pink", "purple", "orange"];
+paint.colors = ["black", "grey", "darkred", "brown", "red", "orange", "gold", "yellow", "green",  "lime", "teal", "turquoise", "indigo", "purple", "deeppink", "coral"];
 paint.brushes = ["circle", "square"];
 paint.canvas = document.getElementById("canvas");
 // paint.can = document.getElementById("can");
@@ -26,11 +26,18 @@ paint.bindMenuButtons = function () {
 paint.generateSideColorsButtons = function () {
     var colorButtonsWrap = document.getElementById("side-menu");
     for (var i = 0; i < paint.colors.length; i++) {
+        var button = document.createElement("button");
+        button.title = paint.colors[i];
+        button.style.border = "none";
+        button.style.outline = "none";
+        button.style.backgroundColor = "inherit";
         var color = document.createElement("div");
         color.classList.add("color");
-        color.id = paint.colors[i]
+        color.id = paint.colors[i];
         color.style.backgroundColor = paint.colors[i];
-        colorButtonsWrap.appendChild(color);
+        color.style.margin= "0 auto";
+        colorButtonsWrap.appendChild(button);
+        button.appendChild(color);
     }
 }
 
@@ -47,9 +54,8 @@ paint.bindSideButtons = function () {
 }
 
 paint.bindGeneral = function () {
-    window.addEventListener("mousedown", paint.changeMouseFlag);
-    window.addEventListener("mouseup", paint.changeMouseFlag);
     paint.canvas.addEventListener("mousemove", paint.painting);
+    paint.canvas.addEventListener("click", paint.painting);
 }
 
 paint.setDefaults = function () {
@@ -104,9 +110,9 @@ paint.changeWidth = function (e) {
 
 
 paint.painting = function (e) {
-    var topLimit = paint.canvas.getBoundingClientRect().y + 500 - paint.selectedWidth;
-    var leftLimit = paint.canvas.getBoundingClientRect().x + 500 - paint.selectedWidth;
-    if (e.buttons != 1 || e.clientY > topLimit || e.clientX > leftLimit) {
+    var topLimit = paint.canvas.getBoundingClientRect().y + 500  - paint.selectedWidth;
+    var leftLimit = paint.canvas.getBoundingClientRect().x + 500  - paint.selectedWidth;
+    if (e.type === "mousemove" && e.buttons != 1 || e.clientY > topLimit || e.clientX > leftLimit) {
         return;
     }
     var newPatch = document.createElement("div");
