@@ -1,5 +1,5 @@
 var paint = {}
-paint.colors = ["black", "grey", "darkred", "brown", "red", "orange", "gold", "yellow", "green",  "lime", "teal", "turquoise", "indigo", "purple", "deeppink", "coral"];
+paint.colors = ["black", "grey", "darkgrey", "white", "darkred", "brown", "red", "orange", "green",  "lime", "gold", "yellow", "indigo", "navy", "teal", "turquoise",  "purple", "deeppink", "salmon", "coral"];
 paint.brushes = document.querySelectorAll("#side-menu button");
 paint.canvas = document.getElementById("canvas");
 paint.sizeRange = document.getElementById("range");
