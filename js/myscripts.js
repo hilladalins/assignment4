@@ -89,6 +89,8 @@ paint.savePaint = function () {
     var savedPaint = {};
     savedPaint.name = paintName;
     savedPaint.backgroundColor = paint.canvas.style.backgroundColor;
+    savedPaint.canvasWidth = paint.canvas.style.width;
+    savedPaint.canvasHeigt = paint.canvas.style.height;
     savedPaint.paintedElements = [];
     var allElements = document.querySelectorAll("#canvas div");
     for (var i = 0; i < allElements.length; i++) {
@@ -110,6 +112,8 @@ paint.loadPaint = function () {
     var paintLoaded = localStorage.getItem("paint");
     var paintObj = JSON.parse(paintLoaded);
     paint.newPaint();
+    paint.canvas.style.width = paintObj.canvasWidth;
+    paint.canvas.style.height = paintObj.canvasHeight;
     paint.canvas.style.backgroundColor = paintObj.backgroundColor;
     for (var i = 0; i < paintObj.paintedElements.length; i++) {
         var styleLoaded = paintObj.paintedElements[i];
@@ -186,7 +190,7 @@ paint.painting = function (e) {
     newPatch.style.top = (e.clientY - paint.canvas.getBoundingClientRect().y) + "px";
     newPatch.style.left = (e.clientX - paint.canvas.getBoundingClientRect().x) + "px";
     if (paint.selectedBrush === "eraser") {
-        newPatch.style.backgroundColor = "white"
+        newPatch.style.backgroundColor = paint.canvas.style.backgroundColor;
     }
     else {
         newPatch.style.backgroundColor = paint.selectedColor;
