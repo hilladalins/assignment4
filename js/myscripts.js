@@ -47,8 +47,8 @@ paint.setCanvasSize = function () {
     paint.canvas.style.height = paint.canvasHeight + "px";
     var paintedElements = document.querySelectorAll("#canvas div");
     for (var i = 0; i < paintedElements.length; i++) {
-        if ((parseInt(paintedElements[i].style.top) > paint.canvas.getBoundingClientRect().y + parseInt(paint.canvasHeight) - parseInt(paint.selectedWidth)) ||
-            (parseInt(paintedElements[i].style.left) > paint.canvas.getBoundingClientRect().x + parseInt(paint.canvasWidth) - parseInt(paint.selectedWidth))) {
+        if ((parseInt(paintedElements[i].style.top) >  parseInt(paint.canvasHeight) - parseInt(paint.selectedWidth)) ||
+            (parseInt(paintedElements[i].style.left) >  parseInt(paint.canvasWidth) - parseInt(paint.selectedWidth))) {
             paint.canvas.removeChild(paintedElements[i]);
         }
     }
