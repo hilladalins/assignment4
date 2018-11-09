@@ -40,9 +40,19 @@ body{
     color: white;
 }
 
-.main-screen{
-    display: flex;
-    justify-content: flex-start;
+.menu-bar label{
+    margin-left: 80px;
+    margin-right: 5px;
+}
+
+.menu-bar #canvas-sizes{
+    width: 110px;
+}
+
+
+.side-menu-wrap{
+    display: inline-block;
+    vertical-align: top;
 }
 
 #side-menu{
@@ -82,12 +92,12 @@ button, .color{
 }
 
 #canvas{
+    display: inline-block;
+    vertical-align: top;
     position: relative;
-    height: 500px;
-    width: 500px;
     outline: 6px solid rgb(205, 213, 224);
     background-color: white;
-    margin: 60px;
+    margin: 30px;
     cursor: url('../img/paintbrush.png'), auto;
 }
 

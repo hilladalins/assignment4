@@ -24,11 +24,23 @@
 
     <div class="menu-bar">
         <span class="logo"> PAINT </span>
-        <button id="new">new</button>
-        <button id="save">save</button>
-        <button id="load">load</button>
+        <button id="new">New</button>
+        <button id="save">Save</button>
+        <button id="load">Load</button>
+        <form>
+            <label for="canvas-size-select">Canvas Size: </label>
+            <select name="canvas-sizes" id="canvas-sizes">
+                <option value="500 X 500">500 X 500 </option>
+                <option value="600 X 500">600 X 500 </option>
+                <option value="800 X 500">800 X 500 </option>
+                <option value="1000 X 500">1000 X 500 </option>
+                <option value="800 X 600">800 X 600 </option>
+                <option value="1200 X 600">1200 X 600 </option>
+            </select>
+            <button id="set">Set</button>
+        </form>
     </div>
-    <div class="main-screen">
+    <div class="side-menu-wrap">
         <div id="side-menu">
             <button type="button" id="circle" class="brush" title="circle">
                 <div class="circle shape"></div>
@@ -36,7 +48,8 @@
             <button type="button" id="square" class="brush" title="square">
                 <div class="square shape"></div>
             </button>
-            <button type="button" id="eraser" title="eraser"> <img src="./img/eraser-logo.png" alt="eraser" /> </button>
+            <button type="button" id="eraser" title="eraser"> <img src="./img/eraser-logo.png" alt="eraser" />
+            </button>
             <button type="button" id="can" title="fill"> <img src="./img/paint-bucket-logo.png" alt="paint-bucket" />
             </button>
             <div class="range-wrap">
@@ -47,8 +60,10 @@
                 </div>
             </div>
         </div>
-        <div id="canvas"></div>
     </div>
+    <div id="canvas"></div>
+
+
     <div style="height:1000px"></div>
 
 

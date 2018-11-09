@@ -10,6 +10,7 @@ paint.start = function () {
     paint.bindSideButtons();
     paint.bindGeneral();
     paint.setDefaults();
+    paint.setCanvasSize();
 }
 
 paint.bindMenuButtons = function () {
@@ -19,6 +20,8 @@ paint.bindMenuButtons = function () {
     saveBtn.addEventListener("click", paint.savePaint);
     var loadBtn = document.getElementById("load");
     loadBtn.addEventListener("click", paint.loadPaint);
+    var setBtn = document.getElementById("set");
+    setBtn.addEventListener("click", paint.changeCanvasSize);
 }
 
 paint.generateSideColorsButtons = function () {
@@ -36,6 +39,18 @@ paint.generateSideColorsButtons = function () {
         color.style.margin = "0 auto";
         colorButtonsWrap.appendChild(button);
         button.appendChild(color);
+    }
+}
+
+paint.setCanvasSize = function () {
+    paint.canvas.style.width = paint.canvasWidth + "px";
+    paint.canvas.style.height = paint.canvasHeight + "px";
+    var paintedElements = document.querySelectorAll("#canvas div");
+    for (var i = 0; i < paintedElements.length; i++) {
+        if ((parseInt(paintedElements[i].style.top) > paint.canvas.getBoundingClientRect().y + parseInt(paint.canvasHeight) - parseInt(paint.selectedWidth)) ||
+            (parseInt(paintedElements[i].style.left) > paint.canvas.getBoundingClientRect().x + parseInt(paint.canvasWidth) - parseInt(paint.selectedWidth))) {
+            paint.canvas.removeChild(paintedElements[i]);
+        }
     }
 }
 
@@ -60,7 +75,8 @@ paint.setDefaults = function () {
     paint.selectedBrush = paint.brushes[0].id;
     paint.brushes[0].classList.add("active");
     paint.selectedWidth = "20";
-    // paint.zCounter = 0;
+    paint.canvasWidth = "500";
+    paint.canvasHeight = "500";
 }
 
 paint.newPaint = function () {
@@ -109,70 +125,78 @@ paint.loadPaint = function () {
     }
 }
 
+paint.changeCanvasSize = function (e) {
+    e.preventDefault();
+    var canvasSizeSelected = document.getElementById("canvas-sizes").value;
+    var multiSign = " X ";
+    var n = canvasSizeSelected.indexOf(multiSign);
+    paint.canvasWidth = canvasSizeSelected.slice(0, n);
+    paint.canvasHeight = canvasSizeSelected.slice(multiSign.length + n);
+    paint.setCanvasSize();
+}
 
-    paint.changeColor = function (e) {
-        document.getElementById(paint.selectedColor).classList.remove("active");
-        paint.selectedColor = e.target.id;
-        document.getElementById(paint.selectedColor).classList.add("active");
+
+paint.changeColor = function (e) {
+    document.getElementById(paint.selectedColor).classList.remove("active");
+    paint.selectedColor = e.target.id;
+    document.getElementById(paint.selectedColor).classList.add("active");
+}
+
+
+paint.changeBrush = function (e) {
+    if (document.getElementById("eraser").classList.contains("active")) {
+        paint.canvas.classList.remove("eraser-cursor");
     }
-
-
-    paint.changeBrush = function (e) {
-        if (document.getElementById("eraser").classList.contains("active")) {
-            paint.canvas.classList.remove("eraser-cursor");
-        }
-        if (document.getElementById("can").classList.contains("active")) {
-            paint.canvas.classList.remove("fill-cursor");
-        }
-        document.getElementById(paint.selectedBrush).classList.remove("active");
-        paint.selectedBrush = e.currentTarget.id;
-        document.getElementById(paint.selectedBrush).classList.add("active");
-        if (paint.selectedBrush === "eraser") {
-            paint.canvas.classList.add("eraser-cursor");
-        }
-        if (paint.selectedBrush === "can") {
-            paint.canvas.classList.add("fill-cursor");
-        }
+    if (document.getElementById("can").classList.contains("active")) {
+        paint.canvas.classList.remove("fill-cursor");
     }
-
-
-    paint.changeWidth = function (e) {
-        document.getElementById("thickness-value").innerHTML = e.target.value + "px";
-        paint.selectedWidth = e.target.value;
+    document.getElementById(paint.selectedBrush).classList.remove("active");
+    paint.selectedBrush = e.currentTarget.id;
+    document.getElementById(paint.selectedBrush).classList.add("active");
+    if (paint.selectedBrush === "eraser") {
+        paint.canvas.classList.add("eraser-cursor");
     }
+    if (paint.selectedBrush === "can") {
+        paint.canvas.classList.add("fill-cursor");
+    }
+}
 
 
-    paint.painting = function (e) {
-        if (paint.selectedBrush === "can") {
-            if (e.type === "click") {
-                paint.canvas.style.backgroundColor = paint.selectedColor;
-                return;
-            }
+paint.changeWidth = function (e) {
+    document.getElementById("thickness-value").innerHTML = e.target.value + "px";
+    paint.selectedWidth = e.target.value;
+}
+
+
+paint.painting = function (e) {
+    if (paint.selectedBrush === "can") {
+        if (e.type === "click") {
+            paint.canvas.style.backgroundColor = paint.selectedColor;
             return;
         }
-        var topLimit = paint.canvas.getBoundingClientRect().y + 500 - paint.selectedWidth;
-        var leftLimit = paint.canvas.getBoundingClientRect().x + 500 - paint.selectedWidth;
-        if (e.type === "mousemove" && e.buttons != 1 || e.clientY > topLimit || e.clientX > leftLimit) {
-            return;
-        }
-        var newPatch = document.createElement("div");
-        newPatch.style.position = "absolute";
-        newPatch.style.top = (e.clientY - paint.canvas.getBoundingClientRect().y) + "px";
-        newPatch.style.left = (e.clientX - paint.canvas.getBoundingClientRect().x) + "px";
-        if (paint.selectedBrush === "eraser") {
-            newPatch.style.backgroundColor = "white"
-        }
-        else {
-            newPatch.style.backgroundColor = paint.selectedColor;
-        }
-        newPatch.style.height = paint.selectedWidth + "px";
-        newPatch.style.width = paint.selectedWidth + "px";
-        // newPatch.style.zIndex = paint.zCounter;
-        // paint.zCounter++;
-        if (paint.selectedBrush === "circle") {
-            newPatch.style.borderRadius = "100%";
-        }
-        paint.canvas.appendChild(newPatch);
+        return;
     }
+    var topLimit = paint.canvas.getBoundingClientRect().y + parseInt(paint.canvasHeight) - parseInt(paint.selectedWidth);
+    var leftLimit = paint.canvas.getBoundingClientRect().x + parseInt(paint.canvasWidth) - parseInt(paint.selectedWidth);
+    if (e.type === "mousemove" && e.buttons != 1 || e.clientY > topLimit || e.clientX > leftLimit) {
+        return;
+    }
+    var newPatch = document.createElement("div");
+    newPatch.style.position = "absolute";
+    newPatch.style.top = (e.clientY - paint.canvas.getBoundingClientRect().y) + "px";
+    newPatch.style.left = (e.clientX - paint.canvas.getBoundingClientRect().x) + "px";
+    if (paint.selectedBrush === "eraser") {
+        newPatch.style.backgroundColor = "white"
+    }
+    else {
+        newPatch.style.backgroundColor = paint.selectedColor;
+    }
+    newPatch.style.height = paint.selectedWidth + "px";
+    newPatch.style.width = paint.selectedWidth + "px";
+    if (paint.selectedBrush === "circle") {
+        newPatch.style.borderRadius = "100%";
+    }
+    paint.canvas.appendChild(newPatch);
+}
 
-    paint.start();
+paint.start();
