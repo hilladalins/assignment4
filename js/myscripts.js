@@ -1,10 +1,8 @@
 var paint = {}
 paint.colors = ["black", "grey", "darkred", "brown", "red", "orange", "gold", "yellow", "green",  "lime", "teal", "turquoise", "indigo", "purple", "deeppink", "coral"];
-paint.brushes = ["circle", "square"];
+paint.brushes = document.querySelectorAll("#side-menu button");
 paint.canvas = document.getElementById("canvas");
-// paint.can = document.getElementById("can");
 paint.sizeRange = document.getElementById("range");
-paint.eraser = document.getElementById("eraser");
 
 paint.start = function () {
     paint.bindMenuButtons();
@@ -46,10 +44,8 @@ paint.bindSideButtons = function () {
         document.getElementsByClassName("color")[i].addEventListener("click", paint.changeColor);
     }
     for (var i = 0; i < paint.brushes.length; i++) {
-        document.getElementsByClassName("brush")[i].addEventListener("click", paint.changeBrush);
+        paint.brushes[i].addEventListener("click", paint.changeBrush);
     }
-    paint.eraser.addEventListener("click", () => { paint.selectedColor = "white" });
-    // paint.can.addEventListener("click", paint.changeBackgroundColor);
     paint.sizeRange.addEventListener("change", paint.changeWidth);
 }
 
@@ -61,7 +57,8 @@ paint.bindGeneral = function () {
 paint.setDefaults = function () {
     paint.selectedColor = paint.colors[0];
     document.getElementsByClassName("color")[0].classList.add("active");
-    paint.selectedBrush = paint.brushes[0];
+    paint.selectedBrush = paint.brushes[0].id;
+    paint.brushes[0].classList.add("active");
     paint.selectedWidth = "20";
     paint.zCounter = 0;
 }
@@ -97,10 +94,22 @@ paint.changeColor = function (e) {
 
 
 paint.changeBrush = function (e) {
-    paint.selectedBrush = e.target.id;
+    if (document.getElementById("eraser").classList.contains("active")){
+        paint.canvas.classList.remove("eraser-cursor");
+    }
+    if (document.getElementById("can").classList.contains("active")){
+        paint.canvas.classList.remove("fill-cursor");
+    }
+    document.getElementById(paint.selectedBrush).classList.remove("active");
+    paint.selectedBrush = e.currentTarget.id;
+    document.getElementById(paint.selectedBrush).classList.add("active");
+    if (paint.selectedBrush === "eraser"){
+        paint.canvas.classList.add("eraser-cursor");
+    }
+    if (paint.selectedBrush === "can"){
+        paint.canvas.classList.add("fill-cursor");
+    }
 }
-
-paint.change
 
 
 paint.changeWidth = function (e) {
@@ -110,6 +119,13 @@ paint.changeWidth = function (e) {
 
 
 paint.painting = function (e) {
+    if (paint.selectedBrush === "can"){
+        if (e.type === "click"){
+            paint.canvas.style.backgroundColor = paint.selectedColor;
+            return;
+        }
+        return;
+    }
     var topLimit = paint.canvas.getBoundingClientRect().y + 500  - paint.selectedWidth;
     var leftLimit = paint.canvas.getBoundingClientRect().x + 500  - paint.selectedWidth;
     if (e.type === "mousemove" && e.buttons != 1 || e.clientY > topLimit || e.clientX > leftLimit) {
@@ -119,7 +135,12 @@ paint.painting = function (e) {
     newPatch.style.position = "absolute";
     newPatch.style.top = (e.clientY - paint.canvas.getBoundingClientRect().y) + "px";
     newPatch.style.left = (e.clientX - paint.canvas.getBoundingClientRect().x) + "px";
-    newPatch.style.backgroundColor = paint.selectedColor;
+    if (paint.selectedBrush === "eraser"){
+        newPatch.style.backgroundColor = "white"
+    }
+    else {
+        newPatch.style.backgroundColor = paint.selectedColor;
+    }
     newPatch.style.height = paint.selectedWidth + "px";
     newPatch.style.width = paint.selectedWidth + "px";
     newPatch.style.zIndex = paint.zCounter;

@@ -89,8 +89,16 @@ button, .color{
     background-color: white;
     margin: 30px;
     align-self: center;
+    cursor: url('../img/paintbrush.png'), auto;
 }
 
+#canvas.eraser-cursor{
+    cursor: url('../img/eraser.png'), auto;
+}
+
+#canvas.fill-cursor{
+    cursor: url('../img/paint-bucket.png'), auto;
+}
 
 .shape{
     background-color: black;
