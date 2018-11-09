@@ -64,27 +64,31 @@ paint.setDefaults = function () {
 }
 
 paint.newPaint = function(){
+    paint.canvas.style.backgroundColor = "white";
     paint.canvas.innerHTML = "";
 }
 
-// paint.savePaint = function(){
-//     var paintName = prompt("Give a name to your paint:");
-//     var savedPaint ={};
-//     savedPaint.name = paintName;
-//     savedPaint.paintedElements = [];
-//     var allElements = document.querySelectorAll("#canvas div");
-//     for (var i=0; i<allElements.length; i++){
-//         savedPaint.paintedElements[i].style={}
-//         savedPaint.paintedElements[i].style.top = allElements[i].style.top;
-//         savedPaint.paintedElements[i].style.left = allElements[i].style.left;
-//         savedPaint.paintedElements[i].style.backgroundColor = allElements[i].style.backgroundColor;
-//         savedPaint.paintedElements[i].style.height = allElements[i].style.height;
-//         savedPaint.paintedElements[i].style.width = allElements[i].style.width;
-//         savedPaint.paintedElements[i].style.borderRadius = allElements[i].style.borderRadius;
-//     }
-//     localStorage.setItem('paint', JSON.stringify(savedPaint));
-//     alert ("Paint Saved");
-// }
+paint.savePaint = function(){
+    var paintName = prompt("Give a name to your paint:");
+    var savedPaint ={};
+    savedPaint.name = paintName;
+    savedPaint.backgroundColor = paint.canvas.style.backgroundColor;
+    savedPaint.paintedElements = [];
+    var allElements = document.querySelectorAll("#canvas div");
+    for (var i=0; i<allElements.length; i++){
+        var elementStyle = {};
+        elementStyle["top"] = allElements[i].style.top;
+        elementStyle["left"] = allElements[i].style.left;
+        elementStyle["backgroundColor"] = allElements[i].style.backgroundColor;
+        elementStyle["height"] = allElements[i].style.height;
+        elementStyle["width"] = allElements[i].style.width;
+        elementStyle["borderRadius"] = allElements[i].style.borderRadius;
+        savedPaint.paintedElements.push(elementStyle)
+    }
+    localStorage.setItem('paint', JSON.stringify(savedPaint));
+    paint.newPaint();
+    alert ("Paint Saved");
+}
 
 paint.changeColor = function (e) {
     document.getElementById(paint.selectedColor).classList.remove("active");
