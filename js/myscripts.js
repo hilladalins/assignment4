@@ -77,6 +77,7 @@ paint.setDefaults = function () {
     paint.selectedWidth = "20";
     paint.canvasWidth = "500";
     paint.canvasHeight = "500";
+    paint.canvas.style.backgroundColor = "white";
 }
 
 paint.newPaint = function () {
